@@ -1,0 +1,36 @@
+# .NET
+**/bin/
+**/obj/
+*.user
+*.suo
+.vs/
+
+# Node and Vite
+**/node_modules/
+**/dist/
+src/MiniIdentity.WebHost/wwwroot/*
+!src/MiniIdentity.WebHost/wwwroot/.gitkeep
+*.local
+
+# Test output
+TestResults/
+coverage/
+playwright-report/
+test-results/
+
+# Local secrets and generated cryptographic material
+.aspire/
+.certificates/
+.keys/
+*.pfx
+*.pem
+*.key
+
+# Environment and tooling
+.env
+.env.*
+!.env.example
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db

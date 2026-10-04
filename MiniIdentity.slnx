@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/MiniIdentity.Api/MiniIdentity.Api.csproj" />
+    <Project Path="src/MiniIdentity.AppHost/MiniIdentity.AppHost.csproj" />
+    <Project Path="src/MiniIdentity.Server/MiniIdentity.Server.csproj" />
+    <Project Path="src/MiniIdentity.WebHost/MiniIdentity.WebHost.csproj" />
+  </Folder>
+</Solution>
