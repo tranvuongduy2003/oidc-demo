@@ -1,10 +1,28 @@
 ﻿@page
 @model IndexModel
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "Identity server";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<section class="glass-card hero-card">
+    <div class="brand-mark" aria-hidden="true"><span></span><span></span></div>
+    <p class="eyebrow">Identity provider</p>
+    <h1>One identity.<br /><span>Two distinct sessions.</span></h1>
+    <p class="lede">
+        Sign in here, on the identity server. Your secure identity session stays
+        separate from the Mini React Client's in-memory tokens.
+    </p>
+    <div class="button-row">
+        <a class="button button-primary" asp-page="/Login">Sign in <span aria-hidden="true">→</span></a>
+        <a class="button button-secondary" asp-page="/Logout">Identity session</a>
+    </div>
+    <div class="flow-line" aria-label="Sign-in flow">
+        <span>React client</span><i aria-hidden="true">→</i><span>Identity server</span><i aria-hidden="true">→</i><span>Consent</span>
+    </div>
+</section>
+
+<section class="security-strip" aria-label="Session security">
+    <div><strong>30 min</strong><span>Absolute lifetime</span></div>
+    <div><strong>32 bytes</strong><span>Token entropy</span></div>
+    <div><strong>SHA-256</strong><span>Stored token hash</span></div>
+</section>

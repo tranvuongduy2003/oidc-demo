@@ -1,0 +1,29 @@
+@page "/logout"
+@model LogoutModel
+@{
+    ViewData["Title"] = "End identity session";
+}
+
+<section class="center-stage">
+    <div class="glass-card centered-card">
+        <div class="status-icon status-icon-danger" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M10 5H6a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h4m5-4 3-3-3-3m3 3H9" /></svg>
+        </div>
+        <p class="eyebrow">Identity session</p>
+        <h1>End this session?</h1>
+        @if (Model.CurrentUser is not null)
+        {
+            <p class="lede">You are signed in as <strong>@Model.CurrentUser.DisplayName</strong> (@Model.CurrentUser.Username).</p>
+        }
+        else
+        {
+            <p class="lede">There is no active identity session in this browser.</p>
+        }
+        <p class="muted-copy">This does not revoke access tokens already issued to the app; those expire normally.</p>
+
+        <form method="post" class="button-stack">
+            <button class="button button-danger button-full" type="submit">Yes, end identity session</button>
+            <a class="button button-secondary button-full" href="@Model.ApplicationHomeUrl">Cancel and return to app</a>
+        </form>
+    </div>
+</section>

@@ -1,0 +1,18 @@
+@page "/consent"
+@model ConsentModel
+@{
+    ViewData["Title"] = "Consent";
+}
+
+<section class="center-stage">
+    <div class="glass-card centered-card">
+        <div class="status-icon status-icon-success" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="m7 12 3 3 7-7" /></svg>
+        </div>
+        <p class="eyebrow">Session recognized</p>
+        <h1>Hello, @Model.CurrentUser!.DisplayName.</h1>
+        <p class="lede">Your active identity session skipped the login form and continued to consent.</p>
+        <div class="notice">Scope approval arrives with FR-02. This session preview issues no authorization code.</div>
+        <a class="button button-secondary button-full" asp-page="/Index">Back to identity home</a>
+    </div>
+</section>

@@ -3,6 +3,33 @@
 @{
     ViewData["Title"] = "Privacy Policy";
 }
-<h1>@ViewData["Title"]</h1>
+<section class="center-stage center-stage-wide">
+    <article class="glass-card content-card">
+        <div class="status-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M12 3 5 6v5c0 4.4 2.8 8.4 7 10 4.2-1.6 7-5.6 7-10V6l-7-3Z" /><path d="M9 12l2 2 4-4" /></svg>
+        </div>
+        <p class="eyebrow">Local learning project</p>
+        <h1>Privacy by boundary.</h1>
+        <p class="lede">Mini Identity keeps credentials, identity sessions, and application tokens in deliberately separate security contexts.</p>
 
-<p>Use this page to detail your site's privacy policy.</p>
+        <div class="privacy-grid">
+            <section>
+                <span class="detail-number">01</span>
+                <h2>Credentials</h2>
+                <p>Usernames and passwords are submitted only to the identity server. The React client never receives them.</p>
+            </section>
+            <section>
+                <span class="detail-number">02</span>
+                <h2>Sessions</h2>
+                <p>The identity session uses a Secure, HttpOnly cookie. Only a hash of its opaque token is persisted.</p>
+            </section>
+            <section>
+                <span class="detail-number">03</span>
+                <h2>Client state</h2>
+                <p>Application tokens remain in browser memory for this demo and disappear when the page is refreshed.</p>
+            </section>
+        </div>
+
+        <a class="button button-secondary" asp-page="/Index">Back to identity home</a>
+    </article>
+</section>
