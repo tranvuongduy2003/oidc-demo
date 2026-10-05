@@ -14,7 +14,7 @@ export const oidcConfig = Object.freeze({
 })
 
 export const apiConfig = Object.freeze({
-  endpoint: import.meta.env.VITE_API_ENDPOINT ?? 'https://localhost:7445/api/resource',
+  endpoint: import.meta.env.VITE_API_ENDPOINT ?? 'https://localhost:7445/api/demo',
 })
 
 export const scopes = Object.freeze({
