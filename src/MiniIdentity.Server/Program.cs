@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.RateLimiting;
+using MiniIdentity.Server.Authorization;
 using MiniIdentity.Server.Data;
 using MiniIdentity.Server.Data.Seeding;
 using MiniIdentity.Server.Options;
@@ -30,6 +31,11 @@ builder.Services.AddSingleton<PasswordHashingService>();
 builder.Services.AddScoped<UserSeeder>();
 builder.Services.AddScoped<UserAuthenticationService>();
 builder.Services.AddScoped<LoginSessionService>();
+builder.Services.AddSingleton<AuthorizationRequestValidator>();
+builder.Services.AddSingleton<BrowserFlowBindingService>();
+builder.Services.AddSingleton<PendingAuthorizationStore>();
+builder.Services.AddHostedService(provider => provider.GetRequiredService<PendingAuthorizationStore>());
+builder.Services.AddScoped<AuthorizationCodeService>();
 builder.Services.AddHostedService<ExpiredSessionCleanupService>();
 builder.Services.AddRateLimiter(options =>
 {

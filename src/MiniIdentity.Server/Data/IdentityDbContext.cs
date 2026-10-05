@@ -7,6 +7,7 @@ public sealed class IdentityDbContext(DbContextOptions<IdentityDbContext> option
 {
     public DbSet<User> Users => Set<User>();
     public DbSet<LoginSession> LoginSessions => Set<LoginSession>();
+    public DbSet<AuthorizationCode> AuthorizationCodes => Set<AuthorizationCode>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder) =>
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(IdentityDbContext).Assembly);

@@ -1,16 +1,30 @@
 @page "/authorize"
 @model AuthorizeModel
 @{
-    ViewData["Title"] = "Authorization";
+    ViewData["Title"] = Model.ErrorCode is null ? "Authorization" : "Authorization request rejected";
 }
 
 <section class="center-stage">
     <div class="glass-card centered-card">
-        <div class="status-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9" /><path d="M12 7v5l3 2" /></svg>
-        </div>
-        <p class="eyebrow">Authorization</p>
-        <h1>Checking your session…</h1>
-        <p class="lede">You will continue to sign-in or consent automatically.</p>
+        @if (Model.ErrorCode is not null)
+        {
+            <div class="status-icon status-icon-danger" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M12 8v5m0 3h.01" /><path d="M10.3 4.6 3.5 17a2 2 0 0 0 1.8 3h13.4a2 2 0 0 0 1.8-3L13.7 4.6a2 2 0 0 0-3.4 0Z" /></svg>
+            </div>
+            <p class="eyebrow">Authorization rejected</p>
+            <h1>This request cannot continue.</h1>
+            <p class="lede">@Model.ErrorDescription</p>
+            <p class="request-id"><span>Error</span><code>@Model.ErrorCode</code></p>
+            <a class="button button-secondary button-full" asp-page="/Index">Return to identity home</a>
+        }
+        else
+        {
+            <div class="status-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9" /><path d="M12 7v5l3 2" /></svg>
+            </div>
+            <p class="eyebrow">Authorization</p>
+            <h1>Checking your request&hellip;</h1>
+            <p class="lede">You will continue to sign-in or consent automatically.</p>
+        }
     </div>
 </section>

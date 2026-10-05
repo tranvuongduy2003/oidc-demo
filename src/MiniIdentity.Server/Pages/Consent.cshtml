@@ -1,18 +1,51 @@
 @page "/consent"
 @model ConsentModel
 @{
-    ViewData["Title"] = "Consent";
+    ViewData["Title"] = Model.ErrorMessage is null ? "Consent" : "Authorization unavailable";
 }
 
 <section class="center-stage">
     <div class="glass-card centered-card">
-        <div class="status-icon status-icon-success" aria-hidden="true">
-            <svg viewBox="0 0 24 24"><path d="m7 12 3 3 7-7" /></svg>
-        </div>
-        <p class="eyebrow">Session recognized</p>
-        <h1>Hello, @Model.CurrentUser!.DisplayName.</h1>
-        <p class="lede">Your active identity session skipped the login form and continued to consent.</p>
-        <div class="notice">Scope approval arrives with FR-02. This session preview issues no authorization code.</div>
-        <a class="button button-secondary button-full" asp-page="/Index">Back to identity home</a>
+        @if (Model.ErrorMessage is not null)
+        {
+            <div class="status-icon status-icon-danger" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M12 8v5m0 3h.01" /><path d="M10.3 4.6 3.5 17a2 2 0 0 0 1.8 3h13.4a2 2 0 0 0 1.8-3L13.7 4.6a2 2 0 0 0-3.4 0Z" /></svg>
+            </div>
+            <p class="eyebrow">Authorization unavailable</p>
+            <h1>This request cannot continue.</h1>
+            <p class="lede" role="alert">@Model.ErrorMessage</p>
+            <a class="button button-secondary button-full" asp-page="/Index">Return to identity home</a>
+        }
+        else
+        {
+            <div class="status-icon status-icon-success" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9" /><path d="M9 12l2 2 4-4" /></svg>
+            </div>
+            <p class="eyebrow">Permission request</p>
+            <h1>Allow @Model.ClientName?</h1>
+            <p class="lede">Signed in as <strong>@Model.CurrentUser!.DisplayName</strong> (@Model.CurrentUser.Username).</p>
+
+            <div class="scope-list" aria-label="Requested permissions">
+                @foreach (var scope in Model.Scopes)
+                {
+                    <article>
+                        <code>@scope.Name</code>
+                        <p>@scope.Description</p>
+                    </article>
+                }
+            </div>
+
+            <div class="consent-actions">
+                <form method="post" asp-page-handler="Approve">
+                    <input type="hidden" name="transaction" value="@Model.TransactionId" />
+                    <button class="button button-primary button-full" type="submit">Approve all permissions</button>
+                </form>
+                <form method="post" asp-page-handler="Deny">
+                    <input type="hidden" name="transaction" value="@Model.TransactionId" />
+                    <button class="button button-secondary button-full" type="submit">Deny</button>
+                </form>
+            </div>
+            <p class="consent-note">Permissions are requested every time and are not saved.</p>
+        }
     </div>
 </section>

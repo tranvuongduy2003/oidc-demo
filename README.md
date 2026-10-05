@@ -3,10 +3,6 @@
 This repository is the implementation workspace for the OAuth 2.0 and OpenID
 Connect learning project described in [docs/PRD.md](docs/PRD.md).
 
-FR-01 is implemented: the identity server seeds two users, verifies their
-hardcoded local-project passwords, and persists opaque login sessions in PostgreSQL.
-The React application deliberately keeps its state separate from that identity
-session.
 
 ## Projects
 

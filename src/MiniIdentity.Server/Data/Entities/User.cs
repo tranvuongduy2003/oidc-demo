@@ -11,4 +11,5 @@ public sealed class User
     public int PasswordIterations { get; init; }
     public DateTimeOffset CreatedAt { get; init; }
     public ICollection<LoginSession> LoginSessions { get; } = [];
+    public ICollection<AuthorizationCode> AuthorizationCodes { get; } = [];
 }

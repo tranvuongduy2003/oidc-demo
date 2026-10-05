@@ -245,6 +245,13 @@ summary:focus-visible,
 .button-stack { display: grid; gap: .75rem; margin-top: 1.75rem; }
 .notice { margin: 1.5rem 0; border-color: rgba(93,228,209,.3); color: #c5fff5; background: rgba(26,150,143,.14); }
 
+.scope-list { margin: 1.6rem 0; display: grid; gap: .7rem; text-align: left; }
+.scope-list article { padding: 1rem 1.1rem; border: 1px solid rgba(255,255,255,.1); border-radius: 15px; background: rgba(5,8,23,.3); }
+.scope-list code { color: #c8c2ff; font-size: .78rem; font-weight: 780; }
+.scope-list p { margin: .38rem 0 0; color: var(--text-secondary); font-size: .84rem; line-height: 1.5; }
+.consent-actions { display: grid; grid-template-columns: 1.45fr 1fr; gap: .75rem; }
+.consent-note { margin: 1.15rem 0 0; color: var(--muted); font-size: .74rem; }
+
 .privacy-grid { margin: 2.1rem 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: .8rem; }
 .privacy-grid section { padding: 1.25rem; border: 1px solid rgba(255,255,255,.095); border-radius: 18px; background: rgba(5,8,23,.28); }
 .privacy-grid h2 { margin: .85rem 0 .55rem; font-size: 1rem; letter-spacing: -.02em; }
@@ -274,6 +281,7 @@ summary:focus-visible,
   .auth-card { border-radius: 25px 25px 0 0; }
   .context-card { border-radius: 0 0 25px 25px; }
   .security-strip, .privacy-grid { grid-template-columns: 1fr; }
+  .consent-actions { grid-template-columns: 1fr; }
   .security-strip div { align-items: flex-start; }
   .flow-line i { display: none; }
   .site-footer { justify-content: center; text-align: center; }
