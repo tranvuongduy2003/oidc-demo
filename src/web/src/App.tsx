@@ -20,13 +20,15 @@ export default function App() {
         <span className="client-badge"><i /> React application</span>
       </header>
 
-      <main className="dashboard">
-        <SignInPanel
-          selectedScope={identity.selectedScope}
-          startingSignIn={identity.startingSignIn}
-          onScopeChange={identity.setSelectedScope}
-          onStartSignIn={identity.beginSignIn}
-        />
+      <main className={`dashboard ${identity.session ? 'dashboard-authenticated' : ''}`}>
+        {!identity.session && (
+          <SignInPanel
+            selectedScope={identity.selectedScope}
+            startingSignIn={identity.startingSignIn}
+            onScopeChange={identity.setSelectedScope}
+            onStartSignIn={identity.beginSignIn}
+          />
+        )}
         <SessionPanel
           session={identity.session}
           notice={identity.notice}

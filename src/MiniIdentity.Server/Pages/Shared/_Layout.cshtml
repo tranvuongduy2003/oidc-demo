@@ -3,21 +3,20 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#080b18" />
+    <meta name="theme-color" content="#071713" />
     <title>@ViewData["Title"] · Mini Identity</title>
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/MiniIdentity.Server.styles.css" asp-append-version="true" />
 </head>
 <body>
-    <div class="ambient ambient-violet" aria-hidden="true"></div>
+    <div class="authority-grid" aria-hidden="true"></div>
     <div class="ambient ambient-cyan" aria-hidden="true"></div>
-    <div class="ambient ambient-rose" aria-hidden="true"></div>
     <header class="site-header">
         <a class="wordmark" asp-page="/Index" aria-label="Mini Identity home">
-            <span class="wordmark-icon" aria-hidden="true"><i></i><i></i></span>
-            <span>mini<span>identity</span></span>
+            <span class="wordmark-icon" aria-hidden="true">MI</span>
+            <span><strong>MINI IDENTITY</strong><small>Authorization authority</small></span>
         </a>
-        <span class="origin-pill"><i></i> Identity server</span>
+        <span class="origin-pill"><i></i> Secure origin · :7443</span>
     </header>
     <div class="page-shell">
         <main role="main">
@@ -26,8 +25,8 @@
     </div>
 
     <footer class="site-footer">
-        <span>Mini Identity · Learning OAuth 2.0 and OpenID Connect</span>
-        <span class="footer-links"><a asp-page="/Privacy">Privacy</a><span aria-hidden="true">·</span><span class="footer-lock">Secure origin</span></span>
+        <span>Mini Identity Authority · OAuth 2.0 / OpenID Connect</span>
+        <span class="footer-links"><a asp-page="/Privacy">Privacy</a><span aria-hidden="true">/</span><span class="footer-lock">TLS secured</span></span>
     </footer>
 
     @await RenderSectionAsync("Scripts", required: false)

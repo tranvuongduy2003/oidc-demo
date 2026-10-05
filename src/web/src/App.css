@@ -84,6 +84,10 @@
 .client-badge i { width: 7px; height: 7px; border-radius: 50%; background: var(--cyan); box-shadow: 0 0 14px rgba(93, 228, 209, .85); }
 
 .dashboard { min-height: calc(100vh - 168px); display: grid; grid-template-columns: .88fr 1.12fr; gap: 1.15rem; align-items: stretch; padding: clamp(2rem, 7vh, 5rem) 0; }
+.dashboard-authenticated {
+  grid-template-columns: minmax(0, 760px);
+  justify-content: center;
+}
 .glass {
   border: 1px solid var(--line);
   border-radius: 30px;

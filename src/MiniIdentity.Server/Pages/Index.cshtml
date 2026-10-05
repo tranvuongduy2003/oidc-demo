@@ -4,20 +4,41 @@
     ViewData["Title"] = "Identity server";
 }
 
-<section class="glass-card hero-card">
-    <div class="brand-mark" aria-hidden="true"><span></span><span></span></div>
-    <p class="eyebrow">Identity provider</p>
-    <h1>One identity.<br /><span>Two distinct sessions.</span></h1>
-    <p class="lede">
-        Sign in here, on the identity server. Your secure identity session stays
-        separate from the Mini React Client's in-memory tokens.
-    </p>
-    <div class="button-row">
-        <a class="button button-primary" asp-page="/Login">Sign in <span aria-hidden="true">→</span></a>
-        <a class="button button-secondary" asp-page="/Logout">Identity session</a>
-    </div>
+<section class="glass-card hero-card authority-card">
+    @if (Model.CurrentUser is null)
+    {
+        <div class="authority-seal" aria-hidden="true"><span>MI</span></div>
+        <p class="eyebrow">Authorization authority · localhost:7443</p>
+        <h1>Secure access<br /><span>starts here.</span></h1>
+        <p class="lede">
+            This is the identity server—not the client application. Authenticate here to
+            review and authorize a request from Mini React Client.
+        </p>
+        <div class="button-row">
+            <a class="button button-primary" asp-page="/Login">Open secure sign-in <span aria-hidden="true">→</span></a>
+            <a class="button button-secondary" href="@Model.ApplicationHomeUrl">Return to client</a>
+        </div>
+    }
+    else
+    {
+        <div class="active-session-mark" aria-hidden="true"><span>✓</span></div>
+        <p class="eyebrow">Active identity session</p>
+        <h1>Welcome back,<br /><span>@Model.CurrentUser.DisplayName.</span></h1>
+        <p class="lede">
+            You are authenticated as <strong>@Model.CurrentUser.Username</strong>. There is no need to sign in again;
+            return to the client to start a new authorization request.
+        </p>
+        <div class="session-summary" aria-label="Active identity session details">
+            <div><span>User</span><strong>@Model.CurrentUser.Username</strong></div>
+            <div><span>Session expires</span><strong>@Model.CurrentUser.ExpiresAt.ToLocalTime().ToString("HH:mm:ss")</strong></div>
+        </div>
+        <div class="button-row">
+            <a class="button button-primary" href="@Model.ApplicationHomeUrl">Return to client <span aria-hidden="true">→</span></a>
+            <a class="button button-danger" asp-page="/Logout">End identity session</a>
+        </div>
+    }
     <div class="flow-line" aria-label="Sign-in flow">
-        <span>React client</span><i aria-hidden="true">→</i><span>Identity server</span><i aria-hidden="true">→</i><span>Consent</span>
+        <span>Client request</span><i aria-hidden="true">→</i><span>Identity check</span><i aria-hidden="true">→</i><span>Consent decision</span>
     </div>
 </section>
 
