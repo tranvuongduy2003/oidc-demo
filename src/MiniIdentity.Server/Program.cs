@@ -4,8 +4,10 @@ using System.Threading.RateLimiting;
 using MiniIdentity.Server.Authorization;
 using MiniIdentity.Server.Data;
 using MiniIdentity.Server.Data.Seeding;
+using MiniIdentity.Server.Endpoints;
 using MiniIdentity.Server.Options;
 using MiniIdentity.Server.Security;
+using MiniIdentity.Server.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +20,16 @@ builder.Services
     .AddOptions<MiniIdentity.Server.Options.SessionOptions>()
     .Bind(builder.Configuration.GetSection(MiniIdentity.Server.Options.SessionOptions.SectionName))
     .ValidateDataAnnotations()
+    .ValidateOnStart();
+builder.Services
+    .AddOptions<ProviderOptions>()
+    .Bind(builder.Configuration.GetSection(ProviderOptions.SectionName))
+    .ValidateDataAnnotations()
+    .Validate(
+        options => Uri.TryCreate(options.Issuer, UriKind.Absolute, out var issuer)
+                   && string.Equals(issuer.Scheme, Uri.UriSchemeHttps, StringComparison.OrdinalIgnoreCase)
+                   && !options.Issuer.EndsWith('/'),
+        "Provider:Issuer must be an absolute HTTPS URI without a trailing slash.")
     .ValidateOnStart();
 
 var connectionString = builder.Configuration.GetConnectionString("IdentityDatabase")
@@ -36,6 +48,9 @@ builder.Services.AddSingleton<BrowserFlowBindingService>();
 builder.Services.AddSingleton<PendingAuthorizationStore>();
 builder.Services.AddHostedService(provider => provider.GetRequiredService<PendingAuthorizationStore>());
 builder.Services.AddScoped<AuthorizationCodeService>();
+builder.Services.AddSingleton<RsaSigningKey>();
+builder.Services.AddSingleton<JwtTokenIssuer>();
+builder.Services.AddScoped<TokenRedemptionService>();
 builder.Services.AddHostedService<ExpiredSessionCleanupService>();
 builder.Services.AddRateLimiter(options =>
 {
@@ -67,6 +82,9 @@ builder.Services.AddRazorPages(options =>
 
 var app = builder.Build();
 
+// Load or create the persisted key during startup so an unusable signer fails fast.
+_ = app.Services.GetRequiredService<RsaSigningKey>();
+
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error");
@@ -81,6 +99,8 @@ app.UseRateLimiter();
 await DatabaseInitializer.InitializeAsync(app.Services);
 
 app.MapRazorPages();
+app.MapTokenEndpoint();
+app.MapProviderMetadataEndpoints();
 
 app.Run();
 

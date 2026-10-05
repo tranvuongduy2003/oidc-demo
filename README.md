@@ -39,6 +39,12 @@ intentionally need to reseed different passwords.
 For environment-based database configuration, use
 `ConnectionStrings__IdentityDatabase`.
 
+The identity server creates its 3072-bit RSA signing key on first startup at
+`src/MiniIdentity.Server/.keys/mini-identity-signing-key.pem`. The ignored
+`.keys` directory must be preserved across ordinary restarts (or mounted as a
+persistent private directory in a container); replacing it changes the published
+`kid` and invalidates tokens signed by the previous key.
+
 ## Run and check
 
 ```powershell
@@ -76,3 +82,6 @@ is required.
   database session and cookie.
 - Issued access tokens are independent and may remain valid until their normal
   expiry.
+- Authorization codes are single-use. If a successful `/token` response is lost,
+  the code cannot be recovered or replayed and the client must sign in again.
+- The MVP issues no refresh tokens and provides no token revocation endpoint.
