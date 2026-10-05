@@ -10,6 +10,13 @@ using MiniIdentity.Server.Security;
 using MiniIdentity.Server.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
+const string browserClientCorsPolicy = "BrowserClient";
+
+var configuredRedirectUri = builder.Configuration[$"{ClientOptions.SectionName}:RedirectUri"];
+if (!Uri.TryCreate(configuredRedirectUri, UriKind.Absolute, out var clientRedirectUri))
+{
+    throw new InvalidOperationException("Client:RedirectUri must be an absolute URI.");
+}
 
 builder.Services
     .AddOptions<ClientOptions>()
@@ -79,6 +86,13 @@ builder.Services.AddRazorPages(options =>
 {
     options.Conventions.ConfigureFilter(new AutoValidateAntiforgeryTokenAttribute());
 });
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(browserClientCorsPolicy, policy =>
+        policy.WithOrigins(clientRedirectUri.GetLeftPart(UriPartial.Authority))
+            .WithMethods(HttpMethods.Get, HttpMethods.Post)
+            .WithHeaders("Accept", "Content-Type"));
+});
 
 var app = builder.Build();
 
@@ -94,13 +108,16 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
+app.UseCors();
 app.UseRateLimiter();
 
 await DatabaseInitializer.InitializeAsync(app.Services);
 
 app.MapRazorPages();
-app.MapTokenEndpoint();
-app.MapProviderMetadataEndpoints();
+var browserProtocolEndpoints = app.MapGroup(string.Empty)
+    .RequireCors(browserClientCorsPolicy);
+browserProtocolEndpoints.MapTokenEndpoint();
+browserProtocolEndpoints.MapProviderMetadataEndpoints();
 
 app.Run();
 
